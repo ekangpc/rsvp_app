@@ -11,13 +11,16 @@ import uuid
 
 # Initialize Flask app
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with a secure random key
+app.secret_key = os.environ.get('SECRET_KEY', 'Invites')  # Use environment variable for security
 
 # Configuration for file uploads
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Database path for Render's persistent disk
+DB_FILE = os.path.join('/data', 'invites.db')
 
 # Initialize Flask-Login
 login_manager = LoginManager()
@@ -41,7 +44,7 @@ def allowed_file(filename):
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def init_db():
-    conn = sqlite3.connect('invites.db')
+    conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
     c.execute('''
         CREATE TABLE IF NOT EXISTS invites (
@@ -93,7 +96,7 @@ def logout():
 @app.route('/admin_dashboard')
 @login_required
 def admin_dashboard():
-    conn = sqlite3.connect('invites.db')
+    conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
     c.execute('''
         SELECT responses.name, responses.number_of_attendees,
@@ -139,7 +142,7 @@ def create_invite():
         else:
             image_path = ''
 
-        conn = sqlite3.connect('invites.db')
+        conn = sqlite3.connect(DB_FILE)
         c = conn.cursor()
         c.execute(
             '''
@@ -160,7 +163,7 @@ def create_invite():
 
 @app.route('/invite/<invite_id>', methods=['GET', 'POST'])
 def invite(invite_id):
-    conn = sqlite3.connect('invites.db')
+    conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
     c.execute(
         '''
@@ -184,7 +187,7 @@ def invite(invite_id):
         if request.method == 'POST':
             name = request.form['name']
             number_of_attendees = request.form['number_of_attendees']
-            conn = sqlite3.connect('invites.db')
+            conn = sqlite3.connect(DB_FILE)
             c = conn.cursor()
             c.execute(
                 '''
