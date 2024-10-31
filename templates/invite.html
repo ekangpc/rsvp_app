@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RSVP Invitation</title>
+</head>
+<body>
+    <h1>Hello, {{ name }}!</h1>
+    <p>You are invited to our event. Please let us know if you will be attending.</p>
+    <form method="post">
+        <input type="radio" name="rsvp" value="Yes" required> Yes<br>
+        <input type="radio" name="rsvp" value="No" required> No<br><br>
+        <input type="submit" value="Submit RSVP">
+    </form>
+</body>
+</html>

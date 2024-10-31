@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin - RSVP Responses</title>
+</head>
+<body>
+    <h1>All Responses</h1>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Response</th>
+        </tr>
+        {% for invite in invites %}
+        <tr>
+            <td>{{ invite[0] }}</td>
+            <td>{{ invite[1] }}</td>
+            <td>{{ invite[2] if invite[2] else 'No Response Yet' }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

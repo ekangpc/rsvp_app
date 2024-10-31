@@ -1,0 +1,42 @@
+<!-- templates/create_invite.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Invite</title>
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <h2>Create Invite</h2>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li><strong>{{ message }}</strong></li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <form method="post" enctype="multipart/form-data">
+        Message:<br>
+        <textarea name="message" rows="4" cols="50" required></textarea><br><br>
+        Upload Image: <input type="file" name="image"><br><br>
+        Event Date: <input type="date" name="event_date" required><br><br>
+        Event Time: <input type="text" id="event_time" name="event_time" required><br><br>
+        Location: <input type="text" name="location" required><br><br>
+        <input type="submit" value="Create Invite">
+    </form>
+
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Initialize Flatpickr -->
+    <script>
+        flatpickr("#event_time", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "h:i K", // 12-hour format with AM/PM
+            time_24hr: false
+        });
+    </script>
+</body>
+</html>
