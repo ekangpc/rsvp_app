@@ -99,8 +99,7 @@ def admin_dashboard():
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
     c.execute('''
-        SELECT responses.name, responses.number_of_attendees,
-               invites.event_date, invites.event_time, invites.location
+        SELECT responses.name, responses.number_of_attendees
         FROM responses
         JOIN invites ON responses.invite_id = invites.id
     ''')

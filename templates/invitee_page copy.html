@@ -1,0 +1,24 @@
+<!-- templates/invitee_page.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>You're Invited!</title>
+</head>
+<body>
+    <h1>You're Invited!</h1>
+    <p>{{ message }}</p>
+    {% if image_path %}
+    <img src="{{ url_for('static', filename='uploads/' + image_path.split('/')[-1]) }}" alt="Event Image" width="300">
+    {% endif %}
+    <p><strong>Date:</strong> {{ event_date }}</p>
+    <p><strong>Time:</strong> {{ event_time }}</p>
+    <p><strong>Location:</strong> {{ location }}</p>
+    <form method="post">
+        <label>Your Name:</label><br>
+        <input type="text" name="name" required><br><br>
+        <label>Number of People Attending:</label><br>
+        <input type="number" name="number_of_attendees" min="1" required><br><br>
+        <input type="submit" value="Yes, I am coming">
+    </form>
+</body>
+</html>

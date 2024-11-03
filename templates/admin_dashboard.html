@@ -13,17 +13,11 @@
         <tr>
             <th>Name</th>
             <th>Number of Attendees</th>
-            <th>Event Date</th>
-            <th>Event Time</th>
-            <th>Location</th>
         </tr>
         {% for attendee in attendees %}
         <tr>
             <td>{{ attendee[0] }}</td>
             <td>{{ attendee[1] }}</td>
-            <td>{{ attendee[2] }}</td>
-            <td>{{ attendee[3] }}</td>
-            <td>{{ attendee[4] }}</td>
         </tr>
         {% endfor %}
     </table>
