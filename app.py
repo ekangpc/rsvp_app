@@ -98,14 +98,16 @@ def logout():
 def admin_dashboard():
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
+    # Select attendee's name, number of attendees, and ID for editing and deleting actions
     c.execute('''
-        SELECT responses.name, responses.number_of_attendees
+        SELECT responses.name, responses.number_of_attendees, responses.id
         FROM responses
         JOIN invites ON responses.invite_id = invites.id
     ''')
     attendees = c.fetchall()
     conn.close()
     return render_template('admin_dashboard.html', attendees=attendees)
+
 
 @app.route('/create_invite', methods=['GET', 'POST'])
 @login_required
@@ -213,3 +215,35 @@ def invite(invite_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+@app.route('/update_attendee/<int:id>', methods=['POST'])
+@login_required
+def update_attendee(id):
+    name = request.form['name']
+    number_of_attendees = request.form['number_of_attendees']
+    
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+    c.execute('''
+        UPDATE responses
+        SET name = ?, number_of_attendees = ?
+        WHERE id = ?
+    ''', (name, number_of_attendees, id))
+    conn.commit()
+    conn.close()
+    
+    flash("Attendee data updated successfully.")
+    return redirect(url_for('admin_dashboard'))
+
+@app.route('/delete_attendee/<int:id>', methods=['GET'])
+@login_required
+def delete_attendee(id):
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+    c.execute('DELETE FROM responses WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+    
+    flash("Attendee data deleted successfully.")
+    return redirect(url_for('admin_dashboard'))
+
