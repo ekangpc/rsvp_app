@@ -3,21 +3,48 @@
 <html>
 <head>
     <title>Admin Dashboard</title>
+    <style>
+        /* Optional styling for better table appearance */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        button {
+            padding: 5px 10px;
+            margin: 2px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome, Admin!</h2>
-    <a href="{{ url_for('create_invite') }}">Create Invite</a> |
-    <a href="{{ url_for('logout') }}">Logout</a>
-    <h3>Attendees</h3>
-    <table border="1">
+    <h2>Admin Dashboard</h2>
+    <table>
         <tr>
             <th>Name</th>
             <th>Number of Attendees</th>
+            <th>Actions</th>
         </tr>
         {% for attendee in attendees %}
         <tr>
-            <td>{{ attendee[0] }}</td>
-            <td>{{ attendee[1] }}</td>
+            <form method="POST" action="{{ url_for('update_attendee', id=attendee[2]) }}">
+                <td>
+                    <input type="text" name="name" value="{{ attendee[0] }}" required>
+                </td>
+                <td>
+                    <input type="number" name="number_of_attendees" value="{{ attendee[1] }}" required>
+                </td>
+                <td>
+                    <button type="submit">Save</button>
+                    <a href="{{ url_for('delete_attendee', id=attendee[2]) }}" onclick="return confirm('Are you sure you want to delete this entry?');">
+                        Delete
+                    </a>
+                </td>
+            </form>
         </tr>
         {% endfor %}
     </table>

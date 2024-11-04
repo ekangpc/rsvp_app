@@ -1,0 +1,25 @@
+<!-- templates/admin_dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h2>Welcome, Admin!</h2>
+    <a href="{{ url_for('create_invite') }}">Create Invite</a> |
+    <a href="{{ url_for('logout') }}">Logout</a>
+    <h3>Attendees</h3>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Number of Attendees</th>
+        </tr>
+        {% for attendee in attendees %}
+        <tr>
+            <td>{{ attendee[0] }}</td>
+            <td>{{ attendee[1] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
